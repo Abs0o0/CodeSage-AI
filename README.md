@@ -149,6 +149,3 @@ I- mplement unit test generation
 
 - Deploy project (e.g., Vercel + Render)
 
----
-
-# [Github].()

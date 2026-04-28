@@ -57,7 +57,7 @@ CodeSage solves these issues by:
 ## 🛠️ Tech Stack
 - Frontend: React  
 - Backend: Node.js / Express  
-- Database: MongoDB / SQL  
+- Database: MongoDB
 - AI Integration: OpenAI API
 
 ## 📂 Project Structure

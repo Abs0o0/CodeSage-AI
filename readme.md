@@ -1,6 +1,6 @@
 # CodeSage: AI-Powered Code Review & Enhancement Platform
 ## 🎨 UI Preview
-[🔗 View UI Design on Figma](https://codesage-ai-ui.lovable.app/)
+[🔗 View UI Design on Loveable](https://codesage-ai-ui.lovable.app/)
 
 ## 📌 Project Overview
 CodeSage is a web-based platform designed to analyze, review, and enhance frontend code using advanced AI-powered tools. It helps developers transform initial code into production-ready software by providing intelligent, automated feedback.

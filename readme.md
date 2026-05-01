@@ -1,71 +1,168 @@
-# CodeSage: AI-Powered Code Review & Enhancement Platform
-## 🎨 UI Preview
-[🔗 View UI Design on Loveable](https://codesage-ai-ui.lovable.app/)
+# UI:
+[UI](https://codesage-ai-ui.lovable.app/)
 
-## 📌 Project Overview
-CodeSage is a web-based platform designed to analyze, review, and enhance frontend code using advanced AI-powered tools. It helps developers transform initial code into production-ready software by providing intelligent, automated feedback.
+# Literature Review:
+[CodeSage_ Project Overview_Literature.pdf](https://github.com/user-attachments/files/27275394/CodeSage_.Project.Overview_Literature.pdf)
 
-## 🚨 Problem Statement
-Modern development teams face challenges in maintaining clean, optimized, and well-structured codebases.
-Manual code reviews are:
-- Time-consuming  
-- Prone to human error  
-- Slowing down development cycles  
+# Requirements Gathering:
+[CodeSage - DEPI Project Software Requirements.pdf](https://github.com/user-attachments/files/27275414/CodeSage.-.DEPI.Project.Software.Requirements.pdf)
 
-Additionally, generating accurate documentation consistently is difficult. There is a need for an automated solution that improves code quality without interrupting workflow.
 
-## 🎯 Project Objectives
-- Automated Code Review: Provide instant AI-driven analysis to detect bugs and inefficiencies  
-- Documentation Generation: Automatically generate clear documentation from code  
-- Code Quality Improvement: Suggest optimizations and enforce best practices  
-- Collaboration Support: Enable teams to review and improve code together  
+# System analysis & Design:
+[](https://gamma.app/docs/AI-Powered-Code-Review-Platform-8ba2b8fdfyysv5o)
 
-## 👥 Target Users
-- Developers: Need fast feedback and optimization  
-- Reviewers: Want to reduce manual effort  
-- Project Teams: Require centralized quality control  
-- Administrators: Manage system usage and roles  
 
-## 🌍 Industry Context
-Modern web apps rely on complex architectures, making maintainability harder as projects scale. Fast development cycles demand automated tools instead of slow manual reviews.
+# [CodeSage-AI]
+### _[AI-Powered Collaborative Code Review & Documentation Platform]_
 
-## 🔍 Existing Solutions
-- Linters (ESLint, Prettier) → Good for formatting, limited logic understanding  
-- AI Chatbots → Require manual copy-paste workflow  
-- Enterprise Tools (SonarQube) → Powerful but complex and heavy  
+---
 
-## ⚠️ Current Limitations
-- Lack of deep contextual code understanding  
-- Fragmented workflows  
-- Limited collaboration features  
-- No real-time AI-based refactoring  
+##  Team Members
+- **Ahmed Abdelsalam (Leader)**  
+- **Ramez Samy**  
+- **Fathy Ahmed**  
+- **Yousef Maged**  
+- **Kermina Kirollos**
 
-## 💡 Our Solution
-CodeSage solves these issues by:
-- Integrating AI directly into the development workflow
-- Providing context-aware code improvements
-- Enabling automated refactoring
-- Offering a centralized collaborative platform
+---
 
-## 🚀 Key Features
-- AI-powered code analysis  
-- Automated bug detection  
-- Smart code refactoring  
-- Auto-generated documentation  
-- Team collaboration tools  
+##  Instructor
+**Hesham Mohammed**
 
-## 🛠️ Tech Stack
-- Frontend: React  
-- Backend: Node.js / Express  
-- Database: MongoDB
-- AI Integration: OpenAI API
+---
 
-## 📂 Project Structure
-```
-/frontend
-/backend
-/docs
-```
+##  Project Overview
+- CodeSage AI is a centralized web platform that allows developers and teams to **upload JavaScript or TypeScript** code snippets and **receive AI-powered feedback** on code style, design patterns, best practices, and documentation quality.
 
-## 📄 License
-This project is part of the DEPI Final Project.
+- The platform solves the problem of inconsistent code quality and lack of proper documentation in collaborative development environments. Instead of manually reviewing every snippet, developers can receive instant AI-driven analysis including:
+
+   1. Code style improvements
+
+   2. Refactoring suggestions
+
+   3. Best practice validation
+
+   4. Automated documentation generation
+
+   5. Unit test generation
+
+>**The system will be presented as a fully functional web application with secure authentication, interactive UI visualizations, and AI-generated reports.**
+
+---
+
+## Project Objectives
+- **Build a secure web-based platform for uploading and reviewing code snippets**
+
+- **Integrate AI to analyze JavaScript/TypeScript code quality**
+
+- **Automatically generate functional documentation and unit tests**
+
+- **Visualize code structure using interactive graphical components**
+
+- **Implement authentication and authorization using JWT**
+
+---
+
+##  Project Scope
+- User Registration & Login system (JWT-based authentication)
+
+- Upload JavaScript/TypeScript code snippets
+
+- AI-based code analysis & suggestions
+
+- Automatic documentation generation
+
+- Unit test generation (Jest format)
+
+- Code structure visualization using SVG/Canvas
+
+- Secure API with middleware protection
+
+- Dashboard for viewing review history  
+
+>  **Final Deliverable:** [A fully deployed web application built with React and Node.js that allows authenticated users to upload code, receive AI-driven feedback, visualize structure, and export generated documentation and unit tests.]
+
+---
+
+## Project Plan (5 Weeks)
+
+###  Week 1 — Project Setup & System Architecture
+
+- Finalize system requirements
+
+- Design system architecture (Frontend + Backend + AI API)
+
+- Setup React frontend project
+
+- Setup Node.js + Express backend
+
+- Configure MongoDB database
+
+- Implement basic project structure
+
+
+### Week 2 — Authentication & Core Backend
+
+- Implement User Registration & Login
+
+- Integrate JWT Authentication
+
+- Create protected routes using middleware
+
+- Implement file/code snippet upload handling
+
+- Store snippets in database
+
+- Test API endpoints using Postman 
+
+
+### Week 3 — AI Integration & Code Analysis
+
+- Connect to AI API for code analysis
+
+- Design structured prompt for:
+
+    -Code style review
+
+    -Best practice analysis
+
+    -Refactoring suggestions
+
+- Implement automated documentation generation
+
+I- mplement unit test generation
+
+- Display AI results in frontend dashboard 
+
+
+### Week 4 — Advanced UI & Code Visualization
+
+- Build interactive dashboard
+
+- Implement code structure visualization using SVG/Canvas
+
+- Add CSS animations and transitions
+
+- Implement dark/light mode
+
+- Improve UX and responsiveness
+
+- Add loading states and error handling
+
+###Week 5 — Testing, Security & Deployment
+
+- Implement input validation & file size limits
+
+- Add rate limiting & security enhancements
+
+- Perform system testing (unit + integration testing)
+
+- Fix bugs & optimize performance
+
+- prepare final presentation
+
+- Deploy project (e.g., Vercel + Render)
+
+---
+
+# [Github].()

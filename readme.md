@@ -9,7 +9,7 @@
 
 
 # System analysis & Design:
-[](https://gamma.app/docs/AI-Powered-Code-Review-Platform-8ba2b8fdfyysv5o)
+[System analysis](https://gamma.app/docs/AI-Powered-Code-Review-Platform-8ba2b8fdfyysv5o)
 
 
 # [CodeSage-AI]

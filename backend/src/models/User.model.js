@@ -9,23 +9,43 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      trim: true,
       minlength: 3,
       maxlength: 30,
+    },
+    fullName: {
+      type: String,
+      trim: true,
+      maxlength: 100,
+      default: "",
     },
     email: {
       type: String,
       required: true,
       unique: true,
+      trim: true,
+      lowercase: true,
     },
     password: {
       type: String,
       required: true,
+      minlength: 8,
     },
     role: {
       type: String,
       enum: USER_ROLES,
       default: "user",
       required: true,
+    },
+    jobTitle: {
+      type: String,
+      trim: true,
+      maxlength: 100,
+      default: "",
+    },
+    avatarUrl: {
+      type: String,
+      default: "",
     },
     active: {
       type: Boolean,

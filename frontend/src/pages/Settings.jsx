@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { Button, Typography } from "@mui/material";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
-import { useAuth } from "./context/AuthContext";
-import SettingsNav from "./components/settings/SettingsNav";
-import ProfileSection from "./components/settings/ProfileSection";
-import AISettingsSection from "./components/settings/AISettingsSection";
-import ThemeSection from "./components/settings/ThemeSection";
-import SecuritySection from "./components/settings/SecuritySection";
-import UnauthenticatedGate from "./components/auth/UnauthenticatedGate";
-import AuthModal from "./components/auth/AuthModal";
-import { ACCENT } from "./components/settings/constants";
+import { useAuth } from "../context/AuthContext";
+import SettingsNav from "../components/settings/SettingsNav";
+import ProfileSection from "../components/settings/ProfileSection";
+import AISettingsSection from "../components/settings/AISettingsSection";
+import ThemeSection from "../components/settings/ThemeSection";
+import SecuritySection from "../components/settings/SecuritySection";
+import UnauthenticatedGate from "../components/auth/UnauthenticatedGate";
+import AuthModal from "../components/auth/AuthModal";
+import { ACCENT } from "../components/settings/constants";
 
 const SECTION_PANELS = {
   profile: ProfileSection,

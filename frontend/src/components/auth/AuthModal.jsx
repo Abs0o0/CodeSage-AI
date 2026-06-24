@@ -85,6 +85,7 @@ export default function AuthModal({ open, onClose }) {
     }
   };
 
+
   return (
     <Dialog
       open={open}

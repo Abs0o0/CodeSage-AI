@@ -1,32 +1,22 @@
 import { CssBaseline } from "@mui/material";
+import { BrowserRouter } from "react-router-dom";
+
 import { ThemeProvider } from "./context/ThemeContext";
-import { AuthProvider, useAuth } from "./context/AuthContext";
-import AuthModal from "./components/auth/AuthModal";
+import { AuthProvider } from "./context/AuthContext";
+
 import MuiThemeBridge from "./theme/MuiThemeBridge";
-import Settings from "./Settings";
-import { AuthLoadingScreen } from "./components/auth/UnauthenticatedGate";
-
-function AppContent() {
-  const { isLoading, isAuthenticated } = useAuth();
-
-  console.log({
-    isLoading,
-    isAuthenticated,
-  });
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-  return <Settings />;
-}
+import AppRoutes from "./routes/AppRoutes";
 
 export default function App() {
   return (
     <ThemeProvider>
       <MuiThemeBridge>
         <CssBaseline />
+
         <AuthProvider>
-          <AppContent />
+          <BrowserRouter>
+            <AppRoutes />
+          </BrowserRouter>
         </AuthProvider>
       </MuiThemeBridge>
     </ThemeProvider>

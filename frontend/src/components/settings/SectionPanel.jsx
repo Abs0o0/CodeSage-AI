@@ -1,28 +1,43 @@
-import { Paper, Typography } from "@mui/material";
+import { Paper, Typography, Box } from "@mui/material";
 
-export default function SectionPanel({ title, description, children }) {
+const SectionPanel = ({ title, description, children }) => {
   return (
     <Paper
       elevation={0}
-      className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900 md:p-8"
+      sx={{
+        p: 4,
+        borderRadius: 4,
+        border: "1px solid",
+        borderColor: "divider",
+        bgcolor: "background.paper",
+        boxShadow:
+          "0 10px 25px rgba(0,0,0,0.05)",
+      }}
     >
-      <div className="mb-8">
+      <Box mb={4}>
         <Typography
           variant="h5"
-          className="font-semibold text-gray-900 dark:text-gray-100"
+          sx={{
+            fontWeight: 700,
+            mb: 1,
+          }}
         >
           {title}
         </Typography>
+
         {description && (
           <Typography
             variant="body2"
-            className="mt-1 text-gray-500 dark:text-gray-400"
+            color="text.secondary"
           >
             {description}
           </Typography>
         )}
-      </div>
+      </Box>
+
       {children}
     </Paper>
   );
-}
+};
+
+export default SectionPanel;

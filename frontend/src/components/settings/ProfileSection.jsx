@@ -120,8 +120,13 @@ export default function ProfileSection() {
         </Typography>
       )}
 
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-        <TextField
+<div
+  style={{
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))",
+    gap: "20px",
+  }}
+>        <TextField
           label="Username"
           value={profileForm.username}
           onChange={handleFieldChange("username")}
@@ -142,8 +147,9 @@ export default function ProfileSection() {
           fullWidth
           size="small"
           disabled
-          className="md:col-span-2 md:max-w-md"
-        />
+sx={{
+  maxWidth: 400,
+}}        />
       </div>
 
       <div className="mt-8 flex flex-wrap items-center gap-3">

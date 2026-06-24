@@ -14,11 +14,13 @@
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^9.1.1",
     "@mui/material": "^9.1.1",
+    "@tailwindcss/cli": "^4.3.1",
     "@tailwindcss/vite": "^4.3.1",
     "axios": "^1.18.1",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-router-dom": "^7.18.0",
+    "tailwind": "^4.0.0",
     "tailwindcss": "^4.3.1"
   },
   "devDependencies": {

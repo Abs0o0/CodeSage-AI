@@ -222,7 +222,7 @@ export default function AuthModal({ open, onClose }) {
                 }))
               }
             />
-            <TextField
+            {/* <TextField
               label="User Role"
               value={registerForm.role}
               onChange={(event) =>
@@ -231,7 +231,7 @@ export default function AuthModal({ open, onClose }) {
                   role: event.target.value,
                 }))
               }
-            />
+            /> */}
             <Button
               type="submit"
               variant="contained"

@@ -1,212 +1,173 @@
 import { useState } from "react";
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Typography,
-} from "@mui/material";
-import WarningAmberOutlinedIcon from "@mui/icons-material/WarningAmberOutlined";
-import { useAuth } from "../../context/AuthContext";
-import { hashPassword } from "../../utils/hashPassword";
-import { ACCENT } from "./constants";
-import PasswordField from "./PasswordField";
-import SectionPanel from "./SectionPanel";
+import { Loader2 } from "lucide-react";
+import api from "../../services/api";
 
 export default function SecuritySection() {
-  const { logout } = useAuth();
-  const [passwordForm, setPasswordForm] = useState({
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: "",
+  const [form, setForm] = useState({
+    current: "",
+    next: "",
+    confirm: "",
   });
-  const [validationError, setValidationError] = useState("");
-  const [requestError, setRequestError] = useState("");
-  const [passwordUpdated, setPasswordUpdated] = useState(false);
-  const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
-  const [isDeactivating, setIsDeactivating] = useState(false);
-  const [deactivationError, setDeactivationError] = useState("");
 
-  const handlePasswordFieldChange = (field) => (event) => {
-    setPasswordForm((previous) => ({ ...previous, [field]: event.target.value }));
-    setValidationError("");
-    setRequestError("");
-    setPasswordUpdated(false);
+  const [error, setError] = useState("");
+  const [done, setDone] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isDeactivating, setIsDeactivating] = useState(false);
+
+  const update = (field) => (event) => {
+    setForm((prev) => ({
+      ...prev,
+      [field]: event.target.value,
+    }));
+    setError("");
+    setDone(false);
   };
 
-  const handleUpdatePassword = async () => {
-    const { currentPassword, newPassword, confirmPassword } = passwordForm;
-
-    if (!currentPassword || !newPassword || !confirmPassword) {
-      setValidationError("All password fields are required.");
-      return;
-    }
-    if (newPassword !== confirmPassword) {
-      setValidationError("New passwords do not match.");
-      return;
-    }
-    if (newPassword.length < 8) {
-      setValidationError("New password must be at least 8 characters.");
+  const submit = async () => {
+    if (!form.current || !form.next || !form.confirm) {
+      setError("All password fields are required.");
       return;
     }
 
-    setIsUpdatingPassword(true);
-    setValidationError("");
-    setRequestError("");
+    if (form.next !== form.confirm) {
+      setError("New passwords do not match.");
+      return;
+    }
+
+    if (form.next.length < 8) {
+      setError("New password must be at least 8 characters.");
+      return;
+    }
+
+    setIsSaving(true);
+    setError("");
+    setDone(false);
 
     try {
-      const hashedNewPassword = await hashPassword(newPassword);
-
-      const response = await fetch("/api/auth/change-password", {
-        method: "PUT",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          currentPassword,
-          newPassword: hashedNewPassword,
-        }),
+      await api.patch("/api/users/me/password", {
+        currentPassword: form.current,
+        newPassword: form.next,
       });
 
-      if (!response.ok) {
-        const payload = await response.json().catch(() => ({}));
-        throw new Error(payload.message || "Failed to update password.");
-      }
-
-      setPasswordForm({
-        currentPassword: "",
-        newPassword: "",
-        confirmPassword: "",
+      setForm({
+        current: "",
+        next: "",
+        confirm: "",
       });
-      setPasswordUpdated(true);
-    } catch (error) {
-      setRequestError(error.message);
+
+      setDone(true);
+    } catch (err) {
+      setError(
+        err.response?.data?.message ||
+          err.message ||
+          "Failed to update password."
+      );
     } finally {
-      setIsUpdatingPassword(false);
+      setIsSaving(false);
     }
   };
 
-  const handleDeactivateAccount = async () => {
-    const confirmed = window.confirm(
-      "This will permanently deactivate your CodeSage account. Continue?",
+  const deactivate = async () => {
+    const confirm = window.confirm(
+      "Deactivate your account? This will sign you out and disable the account."
     );
-    if (!confirmed) return;
+
+    if (!confirm) return;
 
     setIsDeactivating(true);
-    setDeactivationError("");
+    setError("");
+    setDone(false);
 
     try {
-      const response = await fetch("/api/users/deactivate", {
-        method: "POST",
-        credentials: "include",
-      });
-
-      if (!response.ok) {
-        const payload = await response.json().catch(() => ({}));
-        throw new Error(payload.message || "Failed to deactivate account.");
-      }
-
-      await logout();
-    } catch (error) {
-      setDeactivationError(error.message);
+      await api.patch("/api/users/me/deactivate");
+      window.location.href = "/";
+    } catch (err) {
+      setError(
+        err.response?.data?.message ||
+          err.message ||
+          "Failed to deactivate account."
+      );
     } finally {
       setIsDeactivating(false);
     }
   };
 
   return (
-    <SectionPanel
-      title="Security"
-      description="Update your password and manage account access."
-    >
-      <div className="grid max-w-md grid-cols-1 gap-5">
-        <PasswordField
-          label="Current Password"
-          value={passwordForm.currentPassword}
-          onChange={handlePasswordFieldChange("currentPassword")}
-        />
-        <PasswordField
-          label="New Password"
-          value={passwordForm.newPassword}
-          onChange={handlePasswordFieldChange("newPassword")}
-        />
-        <PasswordField
-          label="Confirm New Password"
-          value={passwordForm.confirmPassword}
-          onChange={handlePasswordFieldChange("confirmPassword")}
+    <div className="set-panel">
+      <h2 className="set-panel-title">Security</h2>
+      <p className="set-panel-sub">
+        Update your password and manage account access.
+      </p>
+
+      <div className="set-field">
+        <label htmlFor="current-password">Current Password</label>
+        <input
+          id="current-password"
+          className="set-input"
+          type="password"
+          value={form.current}
+          onChange={update("current")}
         />
       </div>
 
-      {validationError && (
-        <Typography variant="body2" className="mt-3 text-red-600">
-          {validationError}
-        </Typography>
-      )}
-      {requestError && (
-        <Typography variant="body2" className="mt-3 text-red-600">
-          {requestError}
-        </Typography>
-      )}
-      {passwordUpdated && (
-        <Typography variant="body2" className="mt-3 text-emerald-600">
-          Password updated successfully.
-        </Typography>
-      )}
+      <div className="set-field">
+        <label htmlFor="new-password">New Password</label>
+        <input
+          id="new-password"
+          className="set-input"
+          type="password"
+          value={form.next}
+          onChange={update("next")}
+        />
+      </div>
 
-      <Button
-        variant="contained"
-        disabled={isUpdatingPassword}
-        onClick={handleUpdatePassword}
-        startIcon={
-          isUpdatingPassword ? <CircularProgress size={18} color="inherit" /> : null
-        }
-        className="mt-6"
-        sx={{
-          bgcolor: ACCENT,
-          textTransform: "none",
-          "&:hover": { bgcolor: "#9333ea" },
-        }}
-      >
-        {isUpdatingPassword ? "Updating…" : "Update Password"}
-      </Button>
+      <div className="set-field">
+        <label htmlFor="confirm-password">Confirm New Password</label>
+        <input
+          id="confirm-password"
+          className="set-input"
+          type="password"
+          value={form.confirm}
+          onChange={update("confirm")}
+        />
+      </div>
 
-      <Box
-        className="mt-10 rounded-2xl border-2 border-red-300 bg-red-50 p-6 dark:border-red-800 dark:bg-red-950/30"
-        role="region"
-        aria-label="Danger zone"
-      >
-        <div className="flex items-start gap-3">
-          <WarningAmberOutlinedIcon sx={{ color: "#dc2626", mt: 0.25 }} />
-          <div className="flex-1">
-            <Typography
-              variant="subtitle1"
-              className="font-semibold text-red-800 dark:text-red-300"
-            >
-              Deactivate Account
-            </Typography>
-            <Typography
-              variant="body2"
-              className="mt-1 text-red-700 dark:text-red-400"
-            >
-              Permanently disable your CodeSage account. This action cannot be
-              undone and all review history will be archived.
-            </Typography>
-            {deactivationError && (
-              <Typography variant="body2" className="mt-2 text-red-600">
-                {deactivationError}
-              </Typography>
-            )}
-            <Button
-              variant="outlined"
-              color="error"
-              disabled={isDeactivating}
-              onClick={handleDeactivateAccount}
-              className="mt-4"
-              sx={{ textTransform: "none" }}
-            >
-              {isDeactivating ? "Deactivating…" : "Deactivate Account"}
-            </Button>
-          </div>
-        </div>
-      </Box>
-    </SectionPanel>
+      {error && <p className="set-error">{error}</p>}
+      {done && <p className="set-success">Password updated successfully.</p>}
+
+      <div className="set-actions">
+        <button
+          className="btn btn-gradient"
+          type="button"
+          onClick={submit}
+          disabled={isSaving}
+        >
+          {isSaving ? (
+            <>
+              <Loader2 className="auth-spin" size={16} />
+              Updating...
+            </>
+          ) : (
+            "Update Password"
+          )}
+        </button>
+      </div>
+
+      <div className="set-danger">
+        <div className="set-danger-title">Deactivate Account</div>
+        <p className="set-danger-text">
+          Permanently disable your CodeSage account. This action cannot be undone.
+        </p>
+
+        <button
+          className="btn-danger"
+          type="button"
+          onClick={deactivate}
+          disabled={isDeactivating}
+        >
+          {isDeactivating ? "Deactivating..." : "Deactivate Account"}
+        </button>
+      </div>
+    </div>
   );
 }

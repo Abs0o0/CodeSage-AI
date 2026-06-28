@@ -1,41 +1,25 @@
-import { Navigate, Route, Routes } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { Route, Routes } from "react-router-dom";
 
 import PublicRoute from "./PublicRoute";
 import ProtectedRoute from "./ProtectedRoute";
 
+import MainLayout from "../layouts/MainLayout";
+
+import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Dashboard from "../pages/Dashboard";
 import Settings from "../pages/Settings";
 import NotFound from "../pages/NotFound";
+import Analyze from "../pages/Analyze";
+import History from "../pages/History";
+import Languages from "../pages/Languages";
 
 const AppRoutes = () => {
-  const { isAuthenticated, isLoading } = useAuth();
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0f172a] text-white">
-        Loading...
-      </div>
-    );
-  }
-
   return (
     <Routes>
-      {/* Root */}
-      <Route
-        path="/"
-        element={
-          isAuthenticated ? (
-            <Navigate to="/dashboard" replace />
-          ) : (
-            <Navigate to="/login" replace />
-          )
-        }
-      />
+      <Route path="/" element={<Home />} />
 
-      {/* Public Routes */}
       <Route
         path="/login"
         element={
@@ -54,26 +38,20 @@ const AppRoutes = () => {
         }
       />
 
-      {/* Protected Routes */}
       <Route
-        path="/dashboard"
         element={
           <ProtectedRoute>
-            <Dashboard />
+            <MainLayout />
           </ProtectedRoute>
         }
-      />
+      >
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/analyze" element={<Analyze />} />
+        <Route path="/history" element={<History />} />
+        <Route path="/languages" element={<Languages />} />
+        <Route path="/settings" element={<Settings />} />
+      </Route>
 
-      <Route
-        path="/settings"
-        element={
-          <ProtectedRoute>
-            <Settings />
-          </ProtectedRoute>
-        }
-      />
-
-      {/* 404 */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

@@ -1,193 +1,227 @@
-import { useEffect, useState } from "react";
-import {
-  Button,
-  CircularProgress,
-  TextField,
-  Typography,
-} from "@mui/material";
-import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
+import { useEffect, useRef, useState } from "react";
+import { Check, Loader2, Upload, User2 } from "lucide-react";
+
 import { useAuth } from "../../context/AuthContext";
 import api from "../../services/api";
-import { ACCENT } from "./constants";
-import SectionPanel from "./SectionPanel";
 
 export default function ProfileSection() {
   const { user, setUser } = useAuth();
+  const fileInputRef = useRef(null);
 
-  const [profileForm, setProfileForm] = useState({
+  const [form, setForm] = useState({
     username: "",
     email: "",
-    role: "",
+    fullName: "",
+    jobTitle: "",
   });
 
-  const [isFetching, setIsFetching] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
-  const [saveSucceeded, setSaveSucceeded] = useState(false);
-  const [fetchError, setFetchError] = useState("");
-  const [saveError, setSaveError] = useState("");
+  const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    let cancelled = false;
+    if (!user) return;
 
-    async function loadProfile() {
-      setIsFetching(true);
-      setFetchError("");
-
-      try {
-        const { data } = await api.get("/users/me");
-
-        if (cancelled) return;
-
-        setProfileForm({
-          username: data?.user?.username ?? user?.username ?? "",
-          email: data?.user?.email ?? user?.email ?? "",
-          role: data?.user?.role ?? user?.role ?? "",
-        });
-      } catch (error) {
-        if (!cancelled) {
-          setProfileForm({
-            username: user?.username ?? "",
-            email: user?.email ?? "",
-            role: user?.role ?? "",
-          });
-          setFetchError(
-            error?.response?.data?.message || error.message || "Unable to load profile."
-          );
-        }
-      } finally {
-        if (!cancelled) setIsFetching(false);
-      }
-    }
-
-    loadProfile();
-
-    return () => {
-      cancelled = true;
-    };
+    setForm({
+      username: user.username || "",
+      email: user.email || "",
+      fullName: user.fullName || "",
+      jobTitle: user.jobTitle || "",
+    });
   }, [user]);
 
-  const handleFieldChange = (field) => (event) => {
-    setProfileForm((previous) => ({ ...previous, [field]: event.target.value }));
-    setSaveSucceeded(false);
-    setSaveError("");
+  const update = (field) => (event) => {
+    setForm((prev) => ({
+      ...prev,
+      [field]: event.target.value,
+    }));
+
+    setSaved(false);
+    setError("");
   };
 
-  const handleSaveProfile = async () => {
+  const save = async () => {
     setIsSaving(true);
-    setSaveError("");
-    setSaveSucceeded(false);
+    setSaved(false);
+    setError("");
 
     try {
-      const { data } = await api.patch("/users/me", {
-        username: profileForm.username,
-        email: profileForm.email,
-      });
+      const { data } = await api.patch("/api/users/me", form);
 
-      setUser((previous) => ({ ...previous, ...data.user }));
-      setProfileForm({
-        username: data.user?.username ?? "",
-        email: data.user?.email ?? "",
-        role: data.user?.role ?? "",
-      });
-      setSaveSucceeded(true);
-    } catch (error) {
-      setSaveError(
-        error?.response?.data?.message || error.message || "Failed to save profile."
-      );
+      if (data?.user) {
+        setUser(data.user);
+        setSaved(true);
+      } else {
+        setError("Profile updated, but no user data was returned.");
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || err.message || "Failed to update profile.");
     } finally {
       setIsSaving(false);
     }
   };
 
-  if (isFetching) {
-    return (
-      <SectionPanel title="Profile" description="Manage your personal information.">
-        <div className="flex justify-center py-12">
-          <CircularProgress size={32} sx={{ color: ACCENT }} />
-        </div>
-      </SectionPanel>
-    );
-  }
+  const handleAvatarButtonClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleAvatarChange = async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setIsUploadingAvatar(true);
+    setError("");
+
+    try {
+      const formData = new FormData();
+      formData.append("avatar", file);
+
+      const { data } = await api.post("/api/users/me/avatar", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (data?.user) {
+        setUser(data.user);
+      }
+    } catch (err) {
+      setError(
+        err.response?.data?.message ||
+          err.message ||
+          "Failed to upload avatar."
+      );
+    } finally {
+      setIsUploadingAvatar(false);
+      event.target.value = "";
+    }
+  };
+
+  const avatarSrc = user?.avatarUrl || "";
 
   return (
-    <SectionPanel
-      title="Profile"
-      description="Manage your personal information and account details."
-    >
-      {fetchError && (
-        <Typography variant="body2" className="mb-4 text-amber-600">
-          {fetchError}
-        </Typography>
-      )}
+    <div className="set-panel">
+      <div className="profile-avatar-wrap">
+        <div className="profile-avatar-box">
+          {avatarSrc ? (
+            <img
+              src={avatarSrc}
+              alt={user?.username || "User avatar"}
+              className="profile-avatar"
+            />
+          ) : (
+            <div className="profile-avatar placeholder">
+              <User2 size={28} />
+            </div>
+          )}
 
-<div
-  style={{
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))",
-    gap: "20px",
-  }}
->        <TextField
-          label="Username"
-          value={profileForm.username}
-          onChange={handleFieldChange("username")}
-          fullWidth
-          size="small"
+          <button
+            type="button"
+            className="profile-avatar-upload"
+            onClick={handleAvatarButtonClick}
+            disabled={isUploadingAvatar}
+          >
+            {isUploadingAvatar ? (
+              <Loader2 className="auth-spin" size={14} />
+            ) : (
+              <Upload size={14} />
+            )}
+            <span>{isUploadingAvatar ? "Uploading..." : "Change"}</span>
+          </button>
+
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/png, image/jpeg, image/webp"
+            onChange={handleAvatarChange}
+            className="profile-avatar-input"
+          />
+        </div>
+
+        <div>
+          <h2 className="set-panel-title">Profile</h2>
+          <p className="set-panel-sub">
+            Manage your personal information and account details.
+          </p>
+        </div>
+      </div>
+
+      <div className="set-field">
+        <label htmlFor="username">Username</label>
+        <input
+          id="username"
+          className="set-input"
+          value={form.username}
+          onChange={update("username")}
+          autoComplete="username"
         />
-        <TextField
-          label="Email Address"
+      </div>
+
+      <div className="set-field">
+        <label htmlFor="email">Email Address</label>
+        <input
+          id="email"
+          className="set-input"
           type="email"
-          value={profileForm.email}
-          onChange={handleFieldChange("email")}
-          fullWidth
-          size="small"
+          value={form.email}
+          onChange={update("email")}
+          autoComplete="email"
         />
-        <TextField
-          label="Role"
-          value={profileForm.role}
-          fullWidth
-          size="small"
-          disabled
-sx={{
-  maxWidth: 400,
-}}        />
       </div>
 
-      <div className="mt-8 flex flex-wrap items-center gap-3">
-        <Button
-          variant="contained"
+      <div className="set-field">
+        <label htmlFor="fullName">Full Name</label>
+        <input
+          id="fullName"
+          className="set-input"
+          value={form.fullName}
+          onChange={update("fullName")}
+          autoComplete="name"
+        />
+      </div>
+
+      <div className="set-field">
+        <label htmlFor="jobTitle">Job Title</label>
+        <input
+          id="jobTitle"
+          className="set-input"
+          value={form.jobTitle}
+          onChange={update("jobTitle")}
+          autoComplete="organization-title"
+        />
+      </div>
+
+      <div className="set-field">
+        <label>Role</label>
+        <input className="set-input" value={user?.role || "user"} readOnly />
+      </div>
+
+      {error ? <p className="set-error">{error}</p> : null}
+      {saved ? <p className="set-success">Profile saved successfully.</p> : null}
+
+      <div className="set-actions">
+        <button
+          className="btn btn-gradient"
+          type="button"
+          onClick={save}
           disabled={isSaving}
-          onClick={handleSaveProfile}
-          startIcon={
-            isSaving ? (
-              <CircularProgress size={18} color="inherit" />
-            ) : saveSucceeded ? (
-              <CheckCircleOutlinedIcon />
-            ) : null
-          }
-          sx={{
-            bgcolor: ACCENT,
-            textTransform: "none",
-            px: 3,
-            py: 1,
-            "&:hover": { bgcolor: "#9333ea" },
-            "&.Mui-disabled": { bgcolor: ACCENT, opacity: 0.7, color: "#fff" },
-          }}
         >
-          {isSaving ? "Saving…" : saveSucceeded ? "Profile Saved" : "Save Profile"}
-        </Button>
-
-        {saveSucceeded && (
-          <Typography variant="body2" className="text-emerald-600">
-            Your changes have been saved successfully.
-          </Typography>
-        )}
-
-        {saveError && (
-          <Typography variant="body2" className="text-red-600">
-            {saveError}
-          </Typography>
-        )}
+          {isSaving ? (
+            <>
+              <Loader2 className="auth-spin" size={16} />
+              Saving...
+            </>
+          ) : saved ? (
+            <>
+              <Check size={16} />
+              Profile Saved
+            </>
+          ) : (
+            "Save Profile"
+          )}
+        </button>
       </div>
-    </SectionPanel>
+    </div>
   );
 }

@@ -1,0 +1,157 @@
+.epWrap {
+  height: 100%;
+  border-radius: 16px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.epTopBar {
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 16px 16px 0 0;
+  background: rgba(31, 32, 40, 0.65);
+}
+
+.epTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.epTitleIcon {
+  display: inline-flex;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  background: rgba(192, 132, 252, 0.12);
+  border: 1px solid rgba(192, 132, 252, 0.25);
+  color: var(--accent);
+}
+
+.epTitleText {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.epActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.epLangSelect {
+  appearance: none;
+  background: rgba(15, 16, 20, 0.6);
+  color: var(--text);
+  border: 1px solid var(--border);
+  font-weight: 700;
+  font-size: 13px;
+  padding: 9px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  outline: none;
+}
+
+.epLangSelect:hover {
+  border-color: rgba(192, 132, 252, 0.5);
+}
+
+.epLangSelect:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.epAnalyzeBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  color: #0f1014;
+  font-weight: 800;
+  padding: 10px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  background: linear-gradient(90deg, var(--gradA), var(--gradB));
+  transition:
+    transform 160ms ease,
+    filter 160ms ease,
+    opacity 160ms ease;
+}
+
+.epAnalyzeBtn:hover {
+  transform: scale(1.03);
+  filter: brightness(1.05);
+}
+
+.epAnalyzeBtn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.epSpin {
+  animation: epSpin 1s linear infinite;
+}
+
+@keyframes epSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.epEditorArea {
+  flex: 1;
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 16px 16px;
+  overflow: hidden;
+  background: #0f1014;
+}
+
+.epLoading {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+@media (max-width: 1100px) {
+  .epWrap {
+    height: auto;
+    min-height: 420px;
+  }
+
+  .epEditorArea {
+    height: 520px;
+  }
+}
+
+@media (max-width: 760px) {
+  .epTopBar {
+    height: auto;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .epActions {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 640px) {
+  .epEditorArea {
+    height: 440px;
+  }
+}

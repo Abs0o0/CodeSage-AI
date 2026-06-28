@@ -1,41 +1,37 @@
-export const ACCENT = "#aa3bff";
+import { User, Bot, Palette, Lock, Sun, Moon, Monitor } from "lucide-react";
 
 export const SETTINGS_SECTIONS = [
-  { id: "profile", label: "Profile" },
-  { id: "ai", label: "AI Settings" },
-  { id: "theme", label: "Theme" },
-  { id: "security", label: "Security" },
+  { id: "profile", label: "Profile", icon: User },
+  { id: "ai", label: "AI Settings", icon: Bot },
+  { id: "theme", label: "Theme", icon: Palette },
+  { id: "security", label: "Security", icon: Lock },
 ];
 
-export const AI_MODEL_OPTIONS = [
-  { value: "gpt-4o", label: "GPT-4o" },
-  { value: "claude-3.5-sonnet", label: "Claude 3.5 Sonnet" },
-  { value: "custom-fine-tuned", label: "Custom Fine-Tuned" },
+export const AI_MODELS = [
+  { value: "llama-3.3-70b-versatile", label: "Llama 3.3 70B (default)" },
+  { value: "llama-3.1-8b-instant", label: "Llama 3.1 8B (faster)" },
+  { value: "mixtral-8x7b-32768", label: "Mixtral 8x7B" },
 ];
 
-export const STRICTNESS_MARKS = [
-  { value: 0, label: "Lax" },
-  { value: 50, label: "Balanced" },
-  { value: 100, label: "Strict" },
-];
-
-export const THEME_CARD_OPTIONS = [
+export const THEME_CARDS = [
   {
     id: "light",
     label: "Light Mode",
-    description: "Clean, bright interface for daytime work.",
-    preview: "bg-white border-gray-200 dark:border-gray-600",
+    desc: "Clean, bright interface.",
+    icon: Sun,
   },
   {
     id: "dark",
     label: "Dark Mode",
-    description: "Reduced eye strain for late-night reviews.",
-    preview: "bg-gray-900 border-gray-700",
+    desc: "Easy on the eyes at night.",
+    icon: Moon,
   },
   {
     id: "system",
     label: "System Default",
-    description: "Automatically match your OS preference.",
-    preview: "bg-gradient-to-r from-white to-gray-900 border-gray-400",
+    desc: "Match your OS setting.",
+    icon: Monitor,
   },
 ];
+
+export const ACCENT = "#a855f7";

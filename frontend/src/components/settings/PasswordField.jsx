@@ -1,39 +1,42 @@
 import { useState } from "react";
-import { IconButton, InputAdornment, TextField } from "@mui/material";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import { Eye, EyeOff } from "lucide-react";
 
-export default function PasswordField({ label, value, onChange, error }) {
+export default function PasswordField({
+  id,
+  label,
+  value,
+  onChange,
+  placeholder = "Enter password",
+  name = "password",
+  autoComplete = "current-password",
+}) {
   const [isVisible, setIsVisible] = useState(false);
 
   return (
-    <TextField
-      label={label}
-      type={isVisible ? "text" : "password"}
-      value={value}
-      onChange={onChange}
-      error={Boolean(error)}
-      helperText={error}
-      fullWidth
-      size="small"
-      InputProps={{
-        endAdornment: (
-          <InputAdornment position="end">
-            <IconButton
-              aria-label={isVisible ? "Hide password" : "Show password"}
-              onClick={() => setIsVisible((previous) => !previous)}
-              edge="end"
-              size="small"
-            >
-              {isVisible ? (
-                <VisibilityOffOutlinedIcon fontSize="small" />
-              ) : (
-                <VisibilityOutlinedIcon fontSize="small" />
-              )}
-            </IconButton>
-          </InputAdornment>
-        ),
-      }}
-    />
+    <div className="set-field">
+      {label && <label htmlFor={id}>{label}</label>}
+
+      <div className="password-field">
+        <input
+          id={id}
+          name={name}
+          className="set-input password-input"
+          type={isVisible ? "text" : "password"}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          autoComplete={autoComplete}
+        />
+
+        <button
+          type="button"
+          className="password-toggle"
+          onClick={() => setIsVisible((prev) => !prev)}
+          aria-label={isVisible ? "Hide password" : "Show password"}
+        >
+          {isVisible ? <EyeOff size={17} /> : <Eye size={17} />}
+        </button>
+      </div>
+    </div>
   );
 }

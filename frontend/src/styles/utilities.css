@@ -1,0 +1,16 @@
+.score {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.score.high {
+  color: var(--cyan);
+}
+
+.score.mid {
+  color: var(--accent);
+}
+
+.score.low {
+  color: #f0a35e;
+}

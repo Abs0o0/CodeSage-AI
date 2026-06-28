@@ -1,74 +1,65 @@
-import { Typography } from "@mui/material";
-import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
-import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightnessOutlined";
-import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
-import { useTheme } from "../../context/ThemeContext";
-import { ACCENT, THEME_CARD_OPTIONS } from "./constants";
-import SectionPanel from "./SectionPanel";
-
-const THEME_ICONS = {
-  light: LightModeOutlinedIcon,
-  dark: DarkModeOutlinedIcon,
-  system: SettingsBrightnessOutlinedIcon,
-};
+import { useEffect, useState } from "react";
+import { Check } from "lucide-react";
+import { THEME_CARDS } from "./constants";
+import { getThemePref, setThemePref } from "../../services/theme";
 
 export default function ThemeSection() {
-  const { themePreference, setThemePreference } = useTheme();
+  const [pref, setPref] = useState(getThemePref);
+
+  const chooseTheme = (themeId) => {
+    setPref(themeId);
+    setThemePref(themeId);
+  };
+
+  useEffect(() => {
+    const syncTheme = () => {
+      setPref(getThemePref());
+    };
+
+    window.addEventListener("codesage-theme-change", syncTheme);
+    window.addEventListener("storage", syncTheme);
+
+    return () => {
+      window.removeEventListener("codesage-theme-change", syncTheme);
+      window.removeEventListener("storage", syncTheme);
+    };
+  }, []);
 
   return (
-    <SectionPanel
-      title="Theme"
-      description="Choose how CodeSage looks on your screen. Your preference is saved automatically."
-    >
-      <div
-        role="radiogroup"
-        aria-label="Theme preference"
-        className="grid grid-cols-1 gap-4 sm:grid-cols-3"
-      >
-        {THEME_CARD_OPTIONS.map(({ id, label, description, preview }) => {
-          const Icon = THEME_ICONS[id];
-          const isSelected = themePreference === id;
+    <div className="set-panel">
+      <h2 className="set-panel-title">Theme</h2>
+      <p className="set-panel-sub">
+        Choose how CodeSage looks. Your choice is saved automatically.
+      </p>
+
+      <div className="theme-grid">
+        {THEME_CARDS.map((theme) => {
+          const Icon = theme.icon;
+          const isActive = pref === theme.id;
 
           return (
             <button
-              key={id}
+              key={theme.id}
               type="button"
-              role="radio"
-              aria-checked={isSelected}
-              onClick={() => setThemePreference(id)}
-              className={`group flex flex-col rounded-2xl border-2 p-5 text-left transition-all duration-200 ${
-                isSelected
-                  ? "border-violet-500 bg-violet-50 shadow-md ring-2 ring-violet-200 dark:bg-violet-950/40 dark:ring-violet-800"
-                  : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:hover:border-gray-600"
-              }`}
+              className={isActive ? "theme-card active" : "theme-card"}
+              onClick={() => chooseTheme(theme.id)}
             >
-              <div
-                className={`mb-4 h-16 w-full rounded-lg border ${preview} transition-transform group-hover:scale-[1.02]`}
-              />
-              <Icon
-                fontSize="small"
-                sx={{ color: isSelected ? ACCENT : "#6b7280", mb: 0.5 }}
-              />
-              <Typography
-                variant="body2"
-                className={`font-semibold ${isSelected ? "text-violet-800 dark:text-violet-300" : "text-gray-800 dark:text-gray-200"}`}
-              >
-                {label}
-              </Typography>
-              <Typography variant="caption" className="mt-1 text-gray-500 dark:text-gray-400">
-                {description}
-              </Typography>
-              {isSelected && (
-                <CheckCircleOutlinedIcon
-                  fontSize="small"
-                  sx={{ color: ACCENT, mt: 1.5 }}
-                />
+              <span className="theme-ico">
+                <Icon size={20} />
+              </span>
+
+              <span className="theme-label">{theme.label}</span>
+              <span className="theme-desc">{theme.desc}</span>
+
+              {isActive && (
+                <span className="theme-check">
+                  <Check size={16} />
+                </span>
               )}
             </button>
           );
         })}
       </div>
-    </SectionPanel>
+    </div>
   );
 }

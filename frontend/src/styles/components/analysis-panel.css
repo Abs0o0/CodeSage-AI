@@ -1,0 +1,466 @@
+.apWrap {
+  height: 100%;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--card) 70%, transparent);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.apTabsRow {
+  padding: 10px 10px 6px;
+  border-bottom: 1px solid rgba(46, 48, 58, 0.85);
+  background: rgba(21, 22, 29, 0.45);
+}
+
+.apTabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.apTabs::-webkit-scrollbar {
+  height: 8px;
+}
+.apTabs::-webkit-scrollbar-thumb {
+  background: rgba(46, 48, 58, 0.9);
+  border-radius: 999px;
+}
+
+.apTab {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.apTab:hover {
+  background: rgba(39, 40, 53, 0.6);
+  color: var(--text);
+  border-color: rgba(46, 48, 58, 0.9);
+}
+
+.apTabActive {
+  background: rgba(192, 132, 252, 0.22);
+  color: var(--text);
+  border-color: rgba(192, 132, 252, 0.35);
+}
+
+.apTabText {
+  white-space: nowrap;
+}
+
+.apBody {
+  flex: 1;
+  overflow: auto;
+  padding: 14px;
+}
+
+.apBody::-webkit-scrollbar {
+  width: 10px;
+}
+.apBody::-webkit-scrollbar-thumb {
+  background: rgba(46, 48, 58, 0.9);
+  border-radius: 999px;
+}
+
+.apEmpty,
+.apLoading {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 18px;
+  color: var(--muted);
+}
+
+.apEmptyIcon {
+  width: 84px;
+  height: 84px;
+  display: grid;
+  place-items: center;
+  border-radius: 22px;
+  border: 1px dashed rgba(46, 48, 58, 0.95);
+  background: rgba(15, 16, 20, 0.35);
+  color: rgba(229, 231, 235, 0.35);
+  margin-bottom: 14px;
+}
+
+.apEmptyTitle {
+  font-weight: 800;
+  color: var(--text);
+  margin-top: 6px;
+}
+
+.apEmptyHint {
+  margin-top: 6px;
+  font-size: 13px;
+}
+
+.apSpinner {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 3px solid rgba(46, 48, 58, 0.85);
+  border-top-color: var(--gradB);
+  animation: apSpin 0.9s linear infinite;
+  margin-bottom: 12px;
+}
+
+@keyframes apSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.apLoadingTitle {
+  font-weight: 900;
+  color: var(--text);
+}
+
+.apLoadingHint {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.apSectionTitle {
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.apSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.apCard {
+  background: rgba(31, 32, 40, 0.9);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px;
+}
+
+.apCardTitle {
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.apScoreRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.apScoreValue {
+  font-size: 44px;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+
+.apScoreMax {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.apProgressTrack {
+  margin-top: 12px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(46, 48, 58, 0.8);
+  overflow: hidden;
+}
+
+.apProgressFill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--gradA), var(--gradB));
+  transition: width 400ms ease;
+}
+
+.apMsgTitle {
+  margin-top: 14px;
+  font-weight: 900;
+  color: var(--text);
+}
+
+.apMsgSub {
+  margin-top: 6px;
+  color: var(--muted);
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.apStats {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.apDot {
+  opacity: 0.6;
+}
+
+.apDetailsBtn {
+  margin-top: 14px;
+  width: 100%;
+  border: 1px solid rgba(192, 132, 252, 0.35);
+  background: rgba(192, 132, 252, 0.12);
+  color: var(--text);
+  border-radius: 12px;
+  padding: 10px 12px;
+  cursor: pointer;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  transition:
+    transform 160ms ease,
+    background 160ms ease;
+}
+
+.apDetailsBtn:hover {
+  transform: translateY(-1px);
+  background: rgba(192, 132, 252, 0.18);
+}
+
+.apList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.apIssueCard {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(31, 32, 40, 0.85);
+}
+
+.apSeverityDot {
+  width: 10px;
+  height: 10px;
+  margin-top: 6px;
+  border-radius: 999px;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.03);
+  flex: 0 0 auto;
+  /* the dot color comes from the severity class (apSevHigh/Medium/Low) */
+  background: currentColor;
+}
+
+.apIssueMain {
+  min-width: 0;
+}
+
+.apIssueTitle {
+  font-weight: 900;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.apSeverityText {
+  font-size: 12px;
+  letter-spacing: 0.6px;
+}
+
+.apIssueDash {
+  color: rgba(156, 163, 175, 0.6);
+}
+
+.apIssueDesc {
+  margin-top: 6px;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.apSimpleCard {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(31, 32, 40, 0.85);
+}
+
+.apSimpleIcon {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: rgba(192, 132, 252, 0.12);
+  border: 1px solid rgba(192, 132, 252, 0.25);
+  flex: 0 0 auto;
+}
+
+.apSimpleText {
+  color: var(--text);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.apDocCard {
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(31, 32, 40, 0.85);
+}
+
+.apDocTop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.apDocMethod {
+  font-weight: 900;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(103, 232, 249, 0.25);
+  background: rgba(103, 232, 249, 0.1);
+}
+
+.apDocPath {
+  font-weight: 900;
+}
+
+.apDocDesc {
+  margin-top: 8px;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.apCodeBlock {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(15, 16, 20, 0.55);
+}
+
+.apPre {
+  margin: 0;
+  padding: 12px;
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.45;
+  overflow: auto;
+}
+
+@media (max-width: 1100px) {
+  .apWrap {
+    height: auto;
+    min-height: 420px;
+  }
+}
+
+.apFixCard {
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(192, 132, 252, 0.08);
+}
+
+.apFixTitle {
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.apFixHint {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.apFixActions {
+  display: flex;
+  gap: 10px;
+}
+
+.apFixYes {
+  border: none;
+  color: #0f1014;
+  font-weight: 800;
+  padding: 9px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  background: linear-gradient(90deg, var(--gradA), var(--gradB));
+}
+
+.apFixYes:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.apFixNo {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font-weight: 700;
+  padding: 9px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.apFixNo:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.apFixDone {
+  color: var(--success);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.apFixError {
+  margin-top: 10px;
+  color: var(--error);
+  font-size: 13px;
+}
+
+/* Severity colors (used by the dot and the label in the Issues tab) */
+.apSevHigh {
+  color: var(--error);
+}
+
+.apSevMedium {
+  color: var(--warning);
+}
+
+.apSevLow {
+  color: var(--success);
+}
